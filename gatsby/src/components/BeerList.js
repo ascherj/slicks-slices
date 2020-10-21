@@ -41,8 +41,6 @@ function SingleBeer({ beer }) {
 }
 
 export default function BeerList({ beers }) {
-  console.log('Here are the beers:', beers);
-
   return (
     <BeerGridStyles>
       {beers.map((beer) => (

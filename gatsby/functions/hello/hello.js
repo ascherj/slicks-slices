@@ -1,6 +1,4 @@
-exports.handler = async (event, context) => {
-  return {
-    statusCode: 200,
-    body: 'Hello!',
-  };
-};
+module.exports = async (req, res) => ({
+  statusCode: 200,
+  body: 'Hello!',
+});

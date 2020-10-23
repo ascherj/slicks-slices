@@ -42,35 +42,27 @@ function wait(ms = 0) {
   });
 }
 
-exports.handler = async (event, context) => {
-  await wait(5000);
-  const body = JSON.parse(event.body);
+module.exports = async (req, res) => {
+  const { body } = req;
 
   if (body.mapleSyrup) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({ message: 'Boop beep bop zzzzstt, goodbye.' }),
-    };
+    return res.status(400).json({
+      message: 'Boop beep bop zzzzstt, goodbye.',
+    });
   }
 
   const requireFields = ['email', 'name', 'order'];
   for (const field of requireFields) {
     if (!body[field]) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({
-          message: `Oops! You are missing the ${field} field`,
-        }),
-      };
+      return res.status(400).json({
+        message: `Oops! You are missing the ${field} field`,
+      });
     }
 
     if (!body.order.length) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({
-          message: `Your order is empty. Please add some pizzas!`,
-        }),
-      };
+      return res.status(400).json({
+        message: `Your order is empty. Please add some pizzas!`,
+      });
     }
   }
 
@@ -80,8 +72,7 @@ exports.handler = async (event, context) => {
     subject: 'New order!',
     html: generateOrderEmail({ order: body.order, total: body.total }),
   });
-  return {
-    statusCode: 200,
-    body: JSON.stringify({ message: 'Success' }),
-  };
+  return res.status(200).json({
+    message: 'Success',
+  });
 };
